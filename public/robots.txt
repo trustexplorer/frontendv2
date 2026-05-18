@@ -1,0 +1,14 @@
+# *
+User-agent: *
+Allow: /
+
+# *
+User-agent: *
+Disallow: /admin
+Disallow: /dashboard
+
+# Host
+Host: https://trustpadi.com
+
+# Sitemaps
+Sitemap: https://trustpadi.com/sitemap.xml

@@ -1,0 +1,166 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { toast, ToastContainer } from "react-toastify";
+import Image from "next/image";
+import useAuthStore from "@/store";
+
+const EditStoryPage = () => {
+  const { id } = useParams();
+  const router = useRouter();
+  const url = useAuthStore((state) => state.url);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [newImage, setNewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchStory = async () => {
+      try {
+        const res = await fetch(`${url}/api/story/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setTitle(data.title);
+          setContent(data.content);
+          setImagePreview(data.image);
+        } else {
+          toast.error("Failed to load story");
+        }
+      } catch (err) {
+        toast.error("Error loading story");
+        console.error(err);
+      }
+    };
+
+    if (id) fetchStory();
+  }, [id, url]);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    if (!title || !content) {
+      toast.error("Title and content are required");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("content", content);
+    if (newImage) {
+      formData.append("image", newImage);
+    }
+
+    try {
+      setLoading(true);
+      const token = useAuthStore((state) => state.token) || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
+      const res = await fetch(`${url}/api/story/${id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        
+        
+        toast.success(data.message);
+        router.push("/all-stories");
+      } else {
+        const err = await res.json();
+        toast.error(err.error || "Failed to update story");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto mt-10">
+      <Card>
+        <CardHeader>
+          <CardTitle>Edit Story</CardTitle>
+          <CardDescription>Update your story details below</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleUpdate} className="space-y-4">
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="content">Content</Label>
+              <Textarea
+                id="content"
+                rows={6}
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                required
+              />
+            </div>
+
+            {imagePreview && (
+              <div>
+                <Label>Current Image</Label>
+                <Image
+                  src={imagePreview}
+                  alt="Story Image"
+                  width={600}
+                  height={300}
+                  className="rounded object-cover mb-2"
+                  priority
+                />
+              </div>
+            )}
+
+            <div>
+              <Label htmlFor="image">Replace Image (optional)</Label>
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setNewImage(e.target.files[0])}
+              />
+            </div>
+
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Updating..." : "Update Story"}
+            </Button>
+          </form>
+          <ToastContainer />
+        </CardContent>
+        <CardFooter>
+          <p className="text-xs text-muted-foreground">
+            Story updates will reflect immediately upon success.
+          </p>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+};
+
+export default EditStoryPage;
