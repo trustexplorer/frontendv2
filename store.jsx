@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 const useAuthStore = create((set, get) => ({
-  // url: "https://api.trustpadi.com",
-  url: "http://localhost:4000",
+  url: "https://api.trustpadi.com",
+  // url: "http://localhost:4000",
 
   // ─── Auth token ─────────────────────────────────────────────────────────────
   // Single source of truth for the token — always read from store, not localStorage directly
