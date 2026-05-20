@@ -146,16 +146,6 @@ export function LoginForm() {
                   </Link>
                 </p>
               </div>
-
-              {/* Admin portal link — subtle, at the bottom */}
-              <div className="pt-1">
-                <Link href="/adminauth"
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border text-sm text-muted-foreground hover:text-foreground hover:bg-muted hover:border-primary/30 transition-all group">
-                  <Shield className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  Admin Portal
-                  <ChevronRight className="h-3.5 w-3.5 ml-auto opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </div>
             </div>
           </div>
         </div>
