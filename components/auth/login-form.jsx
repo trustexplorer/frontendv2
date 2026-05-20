@@ -71,7 +71,7 @@ export function LoginForm() {
             <div className="text-center space-y-3">
               <div className="flex justify-center">
                 <div className="relative w-12 h-12">
-                  <Image src="/new-logo.png" alt="TrustPadi" fill className="object-contain" />
+                  <Image src="/logo black.png" alt="TrustPadi" fill className="object-contain" />
                 </div>
               </div>
               <div>

@@ -90,7 +90,7 @@ export function Header() {
           >
             <div className="relative w-8 h-8">
               <Image
-                src="/new-logo.png"
+                src="/logo black.png"
                 alt="TrustPadi"
                 fill
                 className="object-contain"

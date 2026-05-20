@@ -80,7 +80,7 @@ export function Sidebar({ isAdmin = false }: SidebarProps) {
       <div className="px-4 py-4 border-b border-border flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="relative w-7 h-7">
-            <Image src="/new-logo.png" alt="TrustPadi" fill className="object-contain" />
+            <Image src="/logo black.png" alt="TrustPadi" fill className="object-contain" />
           </div>
           <span className="font-bold text-sm tracking-tight">TrustPadi</span>
           {isAdmin && (

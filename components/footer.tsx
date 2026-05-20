@@ -47,7 +47,7 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1 space-y-5">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="relative w-8 h-8">
-                <Image src="/new-logo.png" alt="TrustPadi" fill className="object-contain" />
+                <Image src="/logo black.png" alt="TrustPadi" fill className="object-contain" />
               </div>
               <span className="font-bold text-lg tracking-tight">TrustPadi</span>
             </Link>
